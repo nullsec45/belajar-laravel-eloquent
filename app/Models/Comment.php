@@ -11,7 +11,11 @@ class Comment extends Model
 
     protected $table="comments",
               $primaryKey="id",
-              $keyType="string";
+              $keyType="string",
+              $attributes=[
+                "title" => "Sample Title",
+                "comment" => "Sample Comment"
+            ];
 
     public $incrementing=true,
             $timestamps=true;
