@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Category;
+use App\Models\Scopes\IsActiveScope;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -110,5 +111,60 @@ class CategoryTest extends TestCase
         $total=Category::count();
 
         self::assertEquals(2, $total);
+    }
+
+    public function testCreate(){
+        $request=[
+            "id" => "DRINK",
+            "name" => "Drink",
+            "description" => "Drink Category"
+        ];
+
+        $category=new Category($request);
+        $category->save();
+
+        self::assertNotNull($category->id);
+    }
+
+    public function testCreateMethod(){
+        $request=[
+            "id" => "BEAUTY",
+            "name" => "Beauty",
+            "description" => "Beauty Category"
+        ];
+    
+        $category=Category::query()->create($request);
+
+        self::assertNotNull($category->id);
+    }
+
+    public function testUpdateMass(){
+        $this->seed(CategorySeeder::class);
+        
+        $request=[
+            "name" => "Music Updated",
+            "description" => "Music Category Updated"
+        ];
+
+        $category=Category::find("MUSIC");
+        $category->fill($request);
+        $category->save();
+
+        self::assertNotNull($category->id);
+    }
+
+    public function testGlobalScope(){
+        $category=new Category();
+        $category->id="FOOD";
+        $category->name="Food";
+        $category->description="Food Category";
+        // $category->is_active=true;
+        $category->save();
+
+        $category=Category::find("FOOD");
+        self::assertNull($category);
+
+        // $category=Category::withoutGlobalScopes([IsActiveScope::class])->find("FOOD");
+        // self::assertNotNull($category);
     }
 }
