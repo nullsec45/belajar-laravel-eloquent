@@ -19,4 +19,16 @@ class Category extends Model
         parent::booted();
         self::addGlobalScope(new IsActiveScope());
     }
+
+    public function products(){
+        return $this->hasMany(Product::class,"category_id","id");
+    }
+
+    public function cheapestProduct() {
+        return $this->hasOne(Product::class,"category_id","id")->oldest("price");
+    }
+
+    public function mostExpensiveProduct(){
+        return $this->hasOne(Product::class,"category_id","id")->latest("price");
+    }
 }
