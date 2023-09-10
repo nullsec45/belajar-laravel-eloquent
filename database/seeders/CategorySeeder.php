@@ -17,6 +17,7 @@ class CategorySeeder extends Seeder
         $category->id="MUSIC";
         $category->name="Music";
         $category->description="Music Category";
+        $category->is_active=true;
         $category->save();
     }
 }
