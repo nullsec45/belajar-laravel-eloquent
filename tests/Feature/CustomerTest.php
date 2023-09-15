@@ -2,9 +2,14 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Wallet;
+use App\Models\Customer;
+use Database\Seeders\WalletSeeder;
+use Database\Seeders\CustomerSeeder;
+use Database\Seeders\VirtualAccountSeeder;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CustomerTest extends TestCase
 {
@@ -25,5 +30,17 @@ class CustomerTest extends TestCase
         $customer->wallet()->save($wallet);
 
         self::assertNotNull($wallet->customer_id);
+   }
+
+   public function testHasOneThrough(){
+     $this->seed([CustomerSeeder::class, WalletSeeder::class, VirtualAccountSeeder::class]);
+
+     $customer=Customer::query()->find("FAJAR");
+     self::assertNotNull($customer);
+
+     $virtualAccount=$customer->virtualAccount;
+     self::assertNotNull($virtualAccount);
+     self::assertEquals("BCA", $virtualAccount->bank);
+     
    }
 }
