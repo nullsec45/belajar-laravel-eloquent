@@ -19,4 +19,8 @@ class Wallet extends Model
     {
         return $this->belongsTo(Customer::class,"customer_id","id");
     }
+
+    public function virtualAccount(){
+        return $this->hasOne(VirtualAccount::class,"wallet_id","id");
+    }
 }
