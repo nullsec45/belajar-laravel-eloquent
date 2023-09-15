@@ -18,4 +18,8 @@ class Customer extends Model
     public function wallet(){
         return $this->hasOne(Wallet::class,"customer_id","id");
     }
+
+    public function virtualAccount(){
+        return $this->hasOneThrough(VirtualAccount::class, Wallet::class,"customer_id","wallet_id","id","id");
+    }
 }
