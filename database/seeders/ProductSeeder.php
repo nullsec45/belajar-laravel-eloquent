@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
         $product->name="Product 1";
         $product->description="Description Prodcut 1";
         $product->price=888888;
-        $product->category_id="MUSIC";
+        $product->category_id="FOOD";
         $product->save();
 
         $product2=new Product();
@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
         $product2->name="Product 2";
         $product2->description="Description Prodcut 2";
         $product2->price=9999999;
-        $product2->category_id="MUSIC";
+        $product2->category_id="FOOD";
         $product2->save();
     }
 }
