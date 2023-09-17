@@ -31,4 +31,8 @@ class Category extends Model
     public function mostExpensiveProduct(){
         return $this->hasOne(Product::class,"category_id","id")->latest("price");
     }
+
+    public function reviews(){
+        return $this->hasManyThrough(Review::class,Product::class,"category_id","product_id","id","id");
+    }
 }
