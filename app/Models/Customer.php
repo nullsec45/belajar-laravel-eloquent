@@ -22,4 +22,8 @@ class Customer extends Model
     public function virtualAccount(){
         return $this->hasOneThrough(VirtualAccount::class, Wallet::class,"customer_id","wallet_id","id","id");
     }
+
+    public function reviews(){
+        return $this->hasMany(Review::class, "customer_id","id");
+    }
 }
