@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Models\Wallet;
 use App\Models\Customer;
 use Database\Seeders\WalletSeeder;
+use Database\Seeders\ProductSeeder;
+use Database\Seeders\CategorySeeder;
 use Database\Seeders\CustomerSeeder;
 use Database\Seeders\VirtualAccountSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -43,4 +45,28 @@ class CustomerTest extends TestCase
      self::assertEquals("BCA", $virtualAccount->bank);
      
    }
+
+   public function testManyToMany(){
+    $this->seed([CustomerSeeder::class, CategorySeeder::class, ProductSeeder::class]);
+    
+    $customer=Customer::find("FAJAR");
+    self::assertNotNull($customer);
+
+    $customer->likeProducts()->attach("1");
+
+    $products=$customer->likeProducts;
+    self::assertCount(1, $products);
+
+    self::assertEquals("1", $products[0]->id);
+  }
+
+  public function testManyToManyDetach(){
+      $this->testManyToMany();
+
+      $customer=Customer::find("FAJAR");
+      $customer->likeProducts()->detach("1");
+
+      $products=$customer->likeProducts;
+      self::assertCount(0, $products);
+  }
 }
