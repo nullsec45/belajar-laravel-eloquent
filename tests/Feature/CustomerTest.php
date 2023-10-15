@@ -66,7 +66,60 @@ class CustomerTest extends TestCase
       $customer=Customer::find("FAJAR");
       $customer->likeProducts()->detach("1");
 
-      $products=$customer->likeProducts;
+      $products=$customer-A>likeProducts;
       self::assertCount(0, $products);
+  }
+
+  public function testPivotAttribute(){
+    $this->testManyToMany();
+
+    $customer=Customer::find("FAJAR");
+    $products=$customer->likeProducts;
+
+    foreach($products as $product){
+      $pivot=$product->pivot;
+      echo $pivot;
+
+      self::assertNotNull($pivot);
+      self::assertNotNull($pivot->customer_id);
+      self::assertNotNull($pivot->product_id);
+      self::assertNotNull($pivot->created_at);
+    }
+  }
+
+  public function testPivotAttributeCondition(){
+    $this->testManyToMany();
+
+    $customer=Customer::find("FAJAR");
+    $products=$customer->likeProductsLastWeek;
+
+    foreach($products as $product){
+      $pivot=$product->pivot;
+      echo $pivot;
+
+      self::assertNotNull($pivot);
+      self::assertNotNull($pivot->customer_id);
+      self::assertNotNull($pivot->product_id);
+      self::assertNotNull($pivot->created_at);
+    }
+  }
+
+  public function testPivotModel(){
+    $this->testManyToMany();
+
+    $customer=Customer::find("FAJAR");
+    $products=$customer->likeProducts;
+
+    foreach($products as $product){
+      $pivot=$product->pivot;
+
+      self::assertNotNull($pivot);
+      self::assertNotNull($pivot->customer_id);
+      self::assertNotNull($pivot->product_id);
+      self::assertNotNull($pivot->created_at);
+     
+      self::assertNotNull($pivot->customer);
+      self::assertNotNull($pivot->product);
+    }
   }
 }
