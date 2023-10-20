@@ -19,4 +19,8 @@ class Comment extends Model
 
     public $incrementing=true,
             $timestamps=true;
+
+    public function commentable(){
+      return $this->morphTo();
+    }
 }
