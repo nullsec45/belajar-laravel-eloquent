@@ -31,4 +31,8 @@ class Voucher extends Model
     public function scopeNonActive(Builder $builder):void{
         $builder->where("is_active", false);
     }
+
+    public function comments(){
+        return $this->morphMany(Comment::class,"commentable");
+    }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -26,5 +27,13 @@ class Product extends Model
 
     public function likedByCustomers(){
         return $this->belongsToMany(Customer::class,"customers_likes_products","product_id","customer_id")->withPivot("created_at");
+    }
+
+    public function image(){
+        return $this->morphOne(Image::class,"imageable");
+    }
+
+    public function comments(){
+        return $this->morphMany(Comment::class,"commentable");
     }
 }

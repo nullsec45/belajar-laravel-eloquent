@@ -40,4 +40,8 @@ class Customer extends Model
                ->withPivot("created_at")
                ->wherePivot("created_at",">=", Date::now()->addDays(-7));
     }
+
+    public function image(){
+        return $this->morphOne(Image::class,"imageable");
+    }
 }
