@@ -19,14 +19,14 @@ class ImageSeeder extends Seeder
         $image=new Image();
         $image->url="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/985px-Laravel.svg.png";
         $image->imageable_id="FAJAR";
-        $image->imageable_type=Customer::class;
+        $image->imageable_type="customer";
         $image->save();
        }
        {
         $image=new Image();
         $image->url="https://w7.pngwing.com/pngs/866/528/png-transparent-php-web-development-perl-logo-php-logo-cdr-text-trademark-thumbnail.png";
         $image->imageable_id="1";
-        $image->imageable_type=Product::class;
+        $image->imageable_type="product";
         $image->save();
        }
 
