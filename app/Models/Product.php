@@ -36,4 +36,16 @@ class Product extends Model
     public function comments(){
         return $this->morphMany(Comment::class,"commentable");
     }
+
+    public function latestComment(){
+        return $this->morphOne(Comment::class, "commentable")->latest("created_at");
+    }
+
+    public function oldestComment(){
+        return $this->morphOne(Comment::class, "commentable")->oldest("created_at");
+    }
+
+    public function tags(){
+        return $this->morphToMany(Tag::class, "taggable");
+    }
 }
