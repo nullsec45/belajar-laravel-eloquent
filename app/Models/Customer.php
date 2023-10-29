@@ -12,7 +12,8 @@ class Customer extends Model
     use HasFactory;
 
     protected $table="customers",
-              $primaryKey="id";
+              $primaryKey="id",
+              $with=["wallet"];
     
     public $incrementing=false,
            $timestamps=false;
