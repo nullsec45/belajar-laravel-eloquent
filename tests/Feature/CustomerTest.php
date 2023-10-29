@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\Wallet;
 use App\Models\Customer;
+use Database\Seeders\ImageSeeder;
 use Database\Seeders\WalletSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\CategorySeeder;
@@ -122,4 +123,25 @@ class CustomerTest extends TestCase
       self::assertNotNull($pivot->product);
     }
   }
+
+  public function testEagerLoading(){
+    $this->seed([CustomerSeeder::class, WalletSeeder::class, ImageSeeder::class]);
+
+
+    $customer=Customer::with(["wallet","image"])->find("FAJAR");
+    self::assertNotNull($customer);
+    self::assertNotNull($customer->wallet);
+  }
+
+  public function testEagerModel(){
+    $this->seed([CustomerSeeder::class, WalletSeeder::class, ImageSeeder::class]);
+
+
+    $customer=Customer::find("FAJAR");
+    echo $customer;
+    self::assertNotNull($customer);
+    self::assertNotNull($customer->wallet);
+  }
+
+ 
 }
