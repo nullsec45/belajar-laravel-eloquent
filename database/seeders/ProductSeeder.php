@@ -16,16 +16,16 @@ class ProductSeeder extends Seeder
         $product=new Product();
         $product->id="1";
         $product->name="Product 1";
-        $product->description="Description Prodcut 1";
-        $product->price=888888;
+        $product->description="Description Product 1";
+        $product->price=2000000;
         $product->category_id="FOOD";
         $product->save();
 
         $product2=new Product();
         $product2->id="2";
         $product2->name="Product 2";
-        $product2->description="Description Prodcut 2";
-        $product2->price=9999999;
+        $product2->description="Description Product 2";
+        $product2->price=9000000;
         $product2->category_id="FOOD";
         $product2->save();
     }
