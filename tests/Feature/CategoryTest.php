@@ -207,4 +207,28 @@ class CategoryTest extends TestCase
         $outOfStockProducts=$category->products()->where("stock","<=", 0)->get();
         self::assertCount(1, $outOfStockProducts);
     }
+
+    public function testQueryingRelations(){
+        $this->seed([CategorySeeder::class,ProductSeeder::class]);
+    
+        $category=Category::find("FOOD");
+        $products=$category->products()->where("price", 2000000)->get();
+
+        echo $products;
+    
+        self::assertCount(1, $products);
+        self::assertEquals("1", $products[0]->id);
+    }
+
+    public function testAggregatingRelations(){
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+
+        $category=Category::find("FOOD");
+        $total=$category->products()->count();
+
+        self::assertEquals(2, $total);
+        $total=$category->products()->where("price", 2000000)->count();
+
+        self::assertEquals(1, $total);
+    }
 }
