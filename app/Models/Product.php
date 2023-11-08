@@ -12,7 +12,8 @@ class Product extends Model
 
     protected $table="products", 
               $primaryKey="id",
-              $keyType="string";
+              $keyType="string",
+              $hidden=["category_id"];
             //   $fillable=["id","name","description"];
 
     public $timestamps=false;
