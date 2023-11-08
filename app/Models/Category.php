@@ -11,7 +11,8 @@ class Category extends Model
     protected $table="categories", 
               $primaryKey="id",
               $keyType="string",
-              $fillable=["id","name","description"];
+              $fillable=["id","name","description"],
+              $casts=["created_at" => "datetime:U"];
 
     public $incrementing=false, $timestamps=false;
 
