@@ -67,7 +67,7 @@ class CustomerTest extends TestCase
       $customer=Customer::find("FAJAR");
       $customer->likeProducts()->detach("1");
 
-      $products=$customer-A>likeProducts;
+      $products=$customer->likeProducts;
       self::assertCount(0, $products);
   }
 

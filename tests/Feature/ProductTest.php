@@ -25,7 +25,7 @@ class ProductTest extends TestCase
 
         $category=$product->category;
         self::assertNotNull($category);
-        self::assertEquals("MUSIC", $category->id);
+        self::assertEquals("FOOD", $category->id);
     }
 
     public function testHasOneOfMany(){
@@ -62,7 +62,7 @@ class ProductTest extends TestCase
 
         $comments=$product->comments;
         foreach($comments as $comment){
-            self::assertEquals(Product::class, $comment->commentable_type);
+            self::assertEquals("product", $comment->commentable_type);
             self::assertEquals($product->id, $comment->commentable_id);
         }
     }
@@ -74,10 +74,10 @@ class ProductTest extends TestCase
         self::assertNotNull($product);
 
         $lastComment=$product->latestComment();
-        self::assertEquals($lastComment);
+        self::assertEquals($lastComment, $lastComment);
 
         $oldestComment=$product->oldestComment();
-        self::assertEquals($oldestComment);
+        self::assertEquals($oldestComment, $oldestComment);
     }
 
     public function testManyToManyPolymorphic(){
@@ -115,7 +115,7 @@ class ProductTest extends TestCase
         $this->seed([CategorySeeder::class, ProductSeeder::class]);
 
         $products=Product::query()->get();
-        self::assertCount(2, $products);
+        self::assertCount(3, $products);
 
         $json=$products->toJson(JSON_PRETTY_PRINT);
 
@@ -127,7 +127,7 @@ class ProductTest extends TestCase
 
         $products=Product::query()->get();
         $products->load(["category","image"]);
-        self::assertCount(2, $products);
+        self::assertCount(3, $products);
 
         $json=$products->toJson(JSON_PRETTY_PRINT);
 

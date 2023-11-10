@@ -16,11 +16,11 @@ class PersonTest extends TestCase
         $person->first_name="Rama";
         $person->last_name="Fajar";
         $person->save();
-        self::assertEquals("Rama Fajar", $person->full_name);
+        self::assertEquals("RAMA Fajar", $person->full_name);
         
         $person->full_name="Fajar Fadhillah";
         $person->save();
-        self::assertEquals("Fajar", $person->first_name);
+        self::assertEquals("FAJAR", $person->first_name);
         self::assertEquals("Fadhillah", $person->last_name);
 
     }

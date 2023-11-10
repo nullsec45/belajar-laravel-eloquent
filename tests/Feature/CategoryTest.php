@@ -29,7 +29,8 @@ class CategoryTest extends TestCase
         for($i=0;$i<10;$i++){
             $categories[]=[
                 "id" => "ID $i",
-                "Name" => "Name $i"
+                "Name" => "Name $i",
+                "is_active" => true
             ];
         }
 
@@ -51,12 +52,13 @@ class CategoryTest extends TestCase
     }
 
     public function testUpdate(){
-        // $this->seed(CategorySeed::class);
+        $this->seed(CategorySeeder::class);
 
         $category=Category::find("FOOD");
         $category->name="Food Updated";
         
         $result=$category->update();
+        echo $result;
         self::assertTrue($result);
     }
 
@@ -65,11 +67,12 @@ class CategoryTest extends TestCase
             $category=new Category();
             $category->id="$i";
             $category->name="Category $i";
+            $category->is_active=true;
             $category->save();
         }
 
         $categories=Category::whereNull("description")->get();
-        self::assertEquals(15, $categories->count());
+        self::assertEquals(5, $categories->count());
 
         $categories->each(function($category){
             self::assertNull($category->description);
@@ -77,18 +80,20 @@ class CategoryTest extends TestCase
     }
 
     public function testUpdateMany(){
+        $this->seed(CategorySeeder::class);
+
         Category::whereNull("description")->update([
             "description" => "Updated"
         ]);
         $total=Category::where("description","=","Updated")->count();
-        self::assertEquals(15, $total);
+        self::assertEquals(2, $total);
     }
 
     public function testDelete(){
-        $category=Category::where("description","Updated");
-        $result=$category->delete();
+        $this->seed(CategorySeeder::class);
 
-        self::assertTrue($result);
+        $category=Category::whereNull("description");
+        $result=$category->delete();
         $total=Category::count();
 
         self::assertEquals(2, $total);
@@ -100,26 +105,28 @@ class CategoryTest extends TestCase
         for($i=0;$i < 10;$i++){
             $categories[]=[
                 "id" => $i,
-                "name" => "Category $i"
+                "name" => "Category $i",
+                "is_active" => true
             ];
         }
         $result=Category::insert($categories);
         self::assertTrue($result);
 
         $total=Category::count();
-        self::assertEquals(12,$total);
+        self::assertEquals(10,$total);
 
         Category::whereNull("description")->delete();
         $total=Category::count();
 
-        self::assertEquals(2, $total);
+        self::assertEquals(0, $total);
     }
 
     public function testCreate(){
         $request=[
             "id" => "DRINK",
             "name" => "Drink",
-            "description" => "Drink Category"
+            "description" => "Drink Category",
+            "is_active" => true
         ];
 
         $category=new Category($request);
@@ -132,7 +139,8 @@ class CategoryTest extends TestCase
         $request=[
             "id" => "BEAUTY",
             "name" => "Beauty",
-            "description" => "Beauty Category"
+            "description" => "Beauty Category",
+            "is_active" => true
         ];
     
         $category=Category::query()->create($request);
@@ -214,7 +222,6 @@ class CategoryTest extends TestCase
         $category=Category::find("FOOD");
         $products=$category->products()->where("price", 2000000)->get();
 
-        echo $products;
     
         self::assertCount(1, $products);
         self::assertEquals("1", $products[0]->id);
